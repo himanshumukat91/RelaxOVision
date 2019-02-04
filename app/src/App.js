@@ -4,7 +4,8 @@ import { BrowserRouter, Route, Switch } from 'react-router-dom';
 
 import Menubar from './components/Menubar.js';
 import Home from './components/viewport/Home.js';
-import Details from './components/viewport/Details.js';
+import Info from './components/viewport/Info.js';
+import Search from './components/viewport/Search.js';
 
 class App extends Component {
   render() {
@@ -17,8 +18,9 @@ class App extends Component {
           <div id="viewportContainer" className="viewport">
           <Switch>
             <Route exact path="/" component={Home} />
-            <Route exact path="/home" component={_ => <Home />} />
-            <Route path="/details" component={_ => <Details />} />
+            <Route exact path="/home" component={Home} />
+            <Route path="/info" component={Info} />
+            <Route path="/search" component={Search} />
           </Switch>
           </div>
         </div>

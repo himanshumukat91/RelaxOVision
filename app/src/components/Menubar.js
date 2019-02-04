@@ -8,6 +8,7 @@ import InputBase from '@material-ui/core/InputBase';
 import { fade } from '@material-ui/core/styles/colorManipulator';
 import { withStyles } from '@material-ui/core/styles';
 import { NavLink } from 'react-router-dom'
+import { withRouter } from 'react-router-dom'
 
 import Drawer from '@material-ui/core/Drawer';
 import Divider from '@material-ui/core/Divider';
@@ -22,6 +23,18 @@ import Favorite from '@material-ui/icons/Favorite';
 import Face from '@material-ui/icons/Face';
 import Home from '@material-ui/icons/Home';
 import MenuIcon from '@material-ui/icons/Menu';
+
+
+const debounce = (func, delay) => { 
+  let debounceTimer 
+  return function() { 
+      const context = this
+      const args = arguments 
+          clearTimeout(debounceTimer) 
+              debounceTimer 
+          = setTimeout(() => func.apply(context, args), delay) 
+  } 
+}  
 
 const styles = theme => ({
   root: {
@@ -100,6 +113,12 @@ class Menubar extends React.Component {
     });
   }
 
+  searchRedirect = text => {
+    this.props.history.push("search?text="+text);
+  }
+
+  debouncedSearch = debounce(this.searchRedirect, 1000);
+
   render() {
     const { classes } = this.props;
 
@@ -152,13 +171,11 @@ class Menubar extends React.Component {
               <div className={classes.searchIcon}>
                 <SearchIcon />
               </div>
-              <InputBase
+              <InputBase onChange={(e) => {this.debouncedSearch(e.target.value)}}
                 placeholder="Search…"
                 classes={{
                   root: classes.inputRoot,
-                  input: classes.inputInput,
-                }}
-              />
+                  input: classes.inputInput}}/>
             </div>
             <div className={classes.grow} />
             <div className={classes.sectionDesktop}>
@@ -186,4 +203,4 @@ Menubar.propTypes = {
   classes: PropTypes.object.isRequired,
 };
 
-export default withStyles(styles)(Menubar);
+export default withRouter(withStyles(styles)(Menubar));

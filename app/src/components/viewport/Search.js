@@ -34,14 +34,18 @@ const styles = theme => ({
 });
 
 
-class Home extends React.Component{
+class Search extends React.Component{
 
   state = {
     tileData: []
   }
 
-  getRandomPhotos = async() => {
-    let photos = await api.listPhotos();
+  getSearchedPhotos = async() => {
+    let url = window.location.href;
+    //Hacky way of getting URL query params as I know there will be only 1 param. Need to use url parse module
+    let searchText = url.split('?')[1].split('=')[1];
+    let photos = await api.searchPhotos(searchText);
+    
     let photoData = photos.map(photo => {
         return ({
           id: photo.id,
@@ -54,15 +58,13 @@ class Home extends React.Component{
       this.setState({tileData: photoData});
   }
 
-  componentDidMount(){
-    this.getRandomPhotos();
-  }
-
   infoRedirectPage = (photo) => {
     this.props.history.push('/info?/id='+photo.id);
   }
 
   render() {
+    this.getSearchedPhotos();
+
     return (
       <div className={this.props.classes.root}>
         <GridList cellHeight={400} spacing={1} className={this.props.classes.gridList}>
@@ -88,8 +90,8 @@ class Home extends React.Component{
 
 }
 
-Home.propTypes = {
+Search.propTypes = {
   classes: PropTypes.object.isRequired,
 };
 
-export default withRouter(withStyles(styles)(Home));
+export default withRouter(withStyles(styles)(Search));
