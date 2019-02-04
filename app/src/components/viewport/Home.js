@@ -5,91 +5,110 @@ import GridList from '@material-ui/core/GridList';
 import GridListTile from '@material-ui/core/GridListTile';
 import GridListTileBar from '@material-ui/core/GridListTileBar';
 import IconButton from '@material-ui/core/IconButton';
-import StarBorderIcon from '@material-ui/icons/StarBorder';
+import FavoriteIcon from '@material-ui/icons/StarBorder';
 import { withRouter } from 'react-router-dom'
 
-import api from '../../api/unsplash.js'
+import unsplashApi from '../../api/unsplash.js';
+import firebaseApi from '../../api/firebase.js';
 
+
+//Style
 const styles = theme => ({
-  root: {
-    display: 'flex',
-    flexWrap: 'wrap',
-    justifyContent: 'space-around',
-    overflow: 'hidden',
-    backgroundColor: theme.palette.background.paper,
-  },
-  gridList: {
-    width: '100%',
-    height: '100%',
-    transform: 'translateZ(0)',
-  },
-  titleBar: {
-    background:
-      'linear-gradient(to bottom, rgba(0,0,0,0.7) 0%, ' +
-      'rgba(0,0,0,0.3) 70%, rgba(0,0,0,0) 100%)',
-  },
-  icon: {
-    color: 'white',
-  },
+    root: {
+        display: 'flex',
+        flexWrap: 'wrap',
+        justifyContent: 'space-around',
+        overflow: 'hidden',
+        backgroundColor: theme.palette.background.paper,
+    },
+    gridList: {
+        width: '100%',
+        height: '100%',
+        transform: 'translateZ(0)',
+    },
+    titleBar: {
+        background:
+            'linear-gradient(to bottom, rgba(0,0,0,0.7) 0%, ' +
+            'rgba(0,0,0,0.3) 70%, rgba(0,0,0,0) 100%)',
+    },
+    icon: {
+        color: 'white',
+    },
+    activeIcon: {
+        color: 'red',
+    }
 });
 
+//Class
+class Home extends React.Component {
+    constructor(props) {
+        super(props);
+        this.favIds = [];
+    }
 
-class Home extends React.Component{
+    state = {
+        tileData: []
+    }
 
-  state = {
-    tileData: []
-  }
+    getRandomPhotos = async () => {
+        let photos = await unsplashApi.listPhotos();
+        let photoData = photos.map(photo => {
+            return ({
+                id: photo.id,
+                img: photo.urls.regular,
+                title: photo.user.username,
+                author: photo.user.username,
+                featured: (photo.likes > 100 ? true : false),
+            })
+        });
+        this.setState({ tileData: photoData });
+    }
 
-  getRandomPhotos = async() => {
-    let photos = await api.listPhotos();
-    let photoData = photos.map(photo => {
-        return ({
-          id: photo.id,
-          img: photo.urls.regular,
-          title: photo.user.username,
-          author: photo.user.username,
-          featured: (photo.likes>100?true:false), 
-        })
-      });
-      this.setState({tileData: photoData});
-  }
+    // getUserFavorites = async () => {
+    //     let favs = await firebaseApi.getFavorites();
+    //     if (favs && favs.length)
+    //         this.favIds = favs.map((item) => item.id);
+    //     else
+    //         this.favIds = [];
+    // }
 
-  componentDidMount(){
-    this.getRandomPhotos();
-  }
+    componentDidMount() {
+        // this.getUserFavorites();
+        this.getRandomPhotos();
+    }
 
-  infoRedirectPage = (photo) => {
-    this.props.history.push('/info?/id='+photo.id);
-  }
+    infoRedirectPage = (photo) => {
+        this.props.history.push('/info?id=' + photo.id);
+    }
 
-  render() {
+    render() {
+        let scope = this;
+        return (
+            <div className={this.props.classes.root}>
+                <GridList cellHeight={400} spacing={1} className={this.props.classes.gridList}>
+                    {this.state.tileData.map(tile => (
+                        <GridListTile key={tile.img} cols={tile.featured ? 2 : 1} rows={tile.featured ? 2 : 1}>
+                            <img src={tile.img} alt={tile.title} onClick={(e) => { this.infoRedirectPage(tile) }} />
+                            <GridListTileBar
+                                title={tile.title}
+                                titlePosition="top"
+                                actionIcon={
+                                    <IconButton color='primary' onClick={() => { firebaseApi.addToFavorites(tile) }}>
+                                        <FavoriteIcon />
+                                    </IconButton>}
+                                actionPosition="left"
+                                className={this.props.classes.titleBar} />
+                        </GridListTile>
+                    ))}
+                </GridList>
+            </div>
+        );
+    }
 
-    return (
-      <div className={this.props.classes.root}>
-        <GridList cellHeight={400} spacing={1} className={this.props.classes.gridList}>
-          {this.state.tileData.map(tile => (
-            <GridListTile key={tile.img} cols={tile.featured ? 2 : 1} rows={tile.featured ? 2 : 1}
-                onClick={(e)=>{this.infoRedirectPage(tile)}}>
-                <img src={tile.img} alt={tile.title} />
-                <GridListTileBar
-                    title={tile.title}
-                    titlePosition="top"
-                    actionIcon={
-                    <IconButton className={this.props.classes.icon}>
-                        <StarBorderIcon />
-                    </IconButton>}
-                    actionPosition="left"
-                    className={this.props.classes.titleBar}/>
-            </GridListTile>       
-          ))}
-        </GridList>
-      </div>
-    );
-  }
 }
 
 Home.propTypes = {
-  classes: PropTypes.object.isRequired,
+    classes: PropTypes.object.isRequired,
 };
 
 export default withRouter(withStyles(styles)(Home));
