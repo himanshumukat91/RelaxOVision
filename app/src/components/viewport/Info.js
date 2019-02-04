@@ -16,6 +16,7 @@ import LikeIcon from '@material-ui/icons/ThumbUp';
 
 import unsplashApi from '../../api/unsplash.js';
 import firebaseApi from '../../api/firebase.js';
+import { buildFetchOptions } from '../../../node_modules/unsplash-js/lib/utils';
 
 //style
 const styles = theme => ({
@@ -50,6 +51,17 @@ class Info extends React.Component {
         this.setState({ photoDetails: photoDetails });
     }
 
+    addToFav = photo => {
+      let data = {
+        id: photo.id,
+        img: photo.urls.regular,
+        title: photo.user.username,
+        author: photo.user.username,
+        featured: (photo.likes > 100 ? true : false),
+      };
+      firebaseApi.addToFavorites(data);
+    }
+
     componentDidMount() {
         this.getPhotoDetails();
     }
@@ -80,7 +92,7 @@ class Info extends React.Component {
                                 </IconButton>
                                 {this.state.photoDetails.likes}
                             </div>
-                            <IconButton onClick={() => { firebaseApi.addToFavorites(this.state.photoDetails) }} aria-label="Add to favorites">
+                            <IconButton onClick={() => { this.addToFav(this.state.photoDetails) }} aria-label="Add to favorites">
                                 <FavoriteIcon />
                             </IconButton>
                         </CardActions>

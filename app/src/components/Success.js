@@ -1,6 +1,5 @@
 import React from 'react';
-import { Route, Redirect } from 'react-router';
-import api from '../api/unsplash.js';
+import { Redirect } from 'react-router';
 
 class Success extends React.Component {
     render(){

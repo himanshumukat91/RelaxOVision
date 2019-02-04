@@ -82,7 +82,6 @@ class Home extends React.Component {
     }
 
     render() {
-        let scope = this;
         return (
             <div className={this.props.classes.root}>
                 <GridList cellHeight={400} spacing={1} className={this.props.classes.gridList}>
@@ -93,7 +92,7 @@ class Home extends React.Component {
                                 title={tile.title}
                                 titlePosition="top"
                                 actionIcon={
-                                    <IconButton color='primary' onClick={() => { firebaseApi.addToFavorites(tile) }}>
+                                    <IconButton color='secondary' onClick={() => { firebaseApi.addToFavorites(tile) }}>
                                         <FavoriteIcon />
                                     </IconButton>}
                                 actionPosition="left"
