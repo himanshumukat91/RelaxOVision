@@ -9,6 +9,7 @@ import { fade } from '@material-ui/core/styles/colorManipulator';
 import { withStyles } from '@material-ui/core/styles';
 import { NavLink } from 'react-router-dom'
 import { withRouter } from 'react-router-dom'
+import api from '../api/unsplash.js';
 
 import Drawer from '@material-ui/core/Drawer';
 import Divider from '@material-ui/core/Divider';
@@ -114,19 +115,21 @@ class Menubar extends React.Component {
   }
 
   searchRedirect = text => {
-    this.props.history.push("search?text="+text);
+    if(text.length)
+      this.props.history.push("search?text="+text);
+    else
+      this.props.history.push("home");
   }
 
-  debouncedSearch = debounce(this.searchRedirect, 1000);
+  debouncedSearch = debounce(this.searchRedirect, 500);
 
   render() {
     const { classes } = this.props;
-
     const drawerListMenu = [
       {
         name: 'Home',
         icon: <Home />,
-        link: '/home',
+        link: 'home',
       },{
         name: 'Profile',
         icon: <Face />,
@@ -163,7 +166,8 @@ class Menubar extends React.Component {
               color="inherit" aria-label="Menu">
               <MenuIcon />
             </IconButton>
-            <Typography className={classes.title} variant="h6" color="inherit" noWrap>
+            <Typography className={classes.title} variant="h6" color="inherit" noWrap
+              onClick={this.searchRedirect}>
               Relax-O-Vision
             </Typography>
             <div className={classes.grow} />

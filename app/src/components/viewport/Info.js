@@ -37,12 +37,12 @@ class Info extends React.Component {
   state = {};
 
   getPhotoDetails = async() => {
-      let url = window.location.href;
-      //Hacky way of getting URL query params as I know there will be only 1 param. Need to use url parse module
-      let photoID = url.split('?')[1].split('=')[1];
-      let photoDetails = await api.getPhoto(photoID);
-      this.setState({photoDetails: photoDetails});
-      
+    let url = window.location.href;
+    //Hacky way of getting URL query params as I know there will be only 1 param. Need to use url parse module
+    let photoID = url.split('?')[1].split('=')[1];
+
+    let photoDetails = await api.getPhoto(photoID);
+    this.setState({photoDetails: photoDetails});
   }
 
   componentDidMount(){
@@ -65,9 +65,9 @@ class Info extends React.Component {
             title={this.state.photoDetails.user.username}
             subheader={new Date(this.state.photoDetails.updated_at).toDateString()}/>
             <CardMedia
-            className={classes.media}
-            image={this.state.photoDetails.urls.full}
-            title={this.state.photoDetails.user.username}/>
+              className={classes.media}
+              image={this.state.photoDetails.urls.full}
+              title={this.state.photoDetails.user.username}/>
             <CardActions className={classes.actions} disableActionSpacing>
                 <div className="flex-center">
                     <IconButton aria-label="Like" style={{marginRight: '1em'}}>

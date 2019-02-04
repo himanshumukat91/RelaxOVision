@@ -63,6 +63,7 @@ class Home extends React.Component{
   }
 
   render() {
+
     return (
       <div className={this.props.classes.root}>
         <GridList cellHeight={400} spacing={1} className={this.props.classes.gridList}>
@@ -85,7 +86,6 @@ class Home extends React.Component{
       </div>
     );
   }
-
 }
 
 Home.propTypes = {
