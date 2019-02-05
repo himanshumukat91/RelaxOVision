@@ -113,7 +113,7 @@ class Menubar extends React.Component {
     state = {
         showSidebar: false,
         loggedIn: false,
-        username: "User"
+        username: "User",
     };
 
     toggleDrawer = status => {
@@ -167,7 +167,7 @@ class Menubar extends React.Component {
             <div className={classes.list}>
                 <List>
                     {drawerListMenu.map((item, index) => (
-                        <React.Fragment>
+                        <React.Fragment key={index}>
                             <NavLink to={item.link}>
                                 <ListItem button key={item.name}>
                                     <ListItemIcon>{item.icon}</ListItemIcon>
