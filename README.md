@@ -67,7 +67,7 @@ This section has moved here: https://facebook.github.io/create-react-app/docs/de
 
 This section has moved here: https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify
 
-### Known Improvements and Bugs:
+### Known Improvements and Bugs
 
 - Merge Home, Search and Favorites component as basic grid is same
 - Use Redux for event triggering and data sharing instead of page based data API calls and Redux Thunk for API calls
