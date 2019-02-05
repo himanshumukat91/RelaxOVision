@@ -10,5 +10,5 @@ To Start App:
 
 Known Improvements and Bugs:
 
-- Merge Home, Search and Favorites page and basic grid is same
-- Use Redux and Redux Thunk for API calls and remove of window use for glabal share
+- Merge Home, Search and Favorites page as basic grid is same
+- Use Redux and Redux Thunk for API calls and removal of use of window for glabal sharing of firebaseApp
