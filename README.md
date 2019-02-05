@@ -67,7 +67,12 @@ This section has moved here: https://facebook.github.io/create-react-app/docs/de
 
 This section has moved here: https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify
 
-### Known Improvements and Bugs
+### Known Issues
+
+-   There is a high severity vulnerability package - "url-parse" which is a dependency of unsplash which is the
+    backbone third party API of this project. So there is no clean way to fix this issue.
+
+### Known Improvements
 
 - Merge Home, Search and Favorites component as basic grid is same
 - Use Redux for event triggering and data sharing instead of page based data API calls and Redux Thunk for API calls

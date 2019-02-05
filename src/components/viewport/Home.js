@@ -109,7 +109,7 @@ class Home extends React.Component {
                         </GridListTile>
                     ))}
                 </GridList>
-                <Tooltip title="Refresh" aria-label="Refresh" enterDelay={1000} leaveDelay={500}>
+                <Tooltip title="Refresh" aria-label="Refresh" enterDelay={1000} leaveDelay={0}>
                     <Fab color="primary" onClick={() => {this.getRandomPhotos()}}
                         className={this.props.classes.fab}>
                         <Refresh />

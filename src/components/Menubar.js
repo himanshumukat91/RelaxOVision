@@ -218,7 +218,7 @@ class Menubar extends React.Component {
                               <Typography className={classes.title} variant="h6" color="inherit" noWrap>
                                   {this.state.username}
                               </Typography>
-                              <Tooltip title="Logout" aria-label="Logout" enterDelay={500} leaveDelay={500}>
+                              <Tooltip title="Logout" aria-label="Logout" enterDelay={500} leaveDelay={0}>
                                   <IconButton color="inherit" onClick={() => { firebaseApi.logout(); }}>
                                       <Cancel />
                                   </IconButton>
