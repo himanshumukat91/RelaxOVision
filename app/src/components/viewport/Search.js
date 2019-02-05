@@ -78,7 +78,7 @@ class Search extends React.Component {
                                 title={tile.title}
                                 titlePosition="top"
                                 actionIcon={
-                                    <IconButton color='primary' onClick={() => { firebaseApi.addToFavorites(tile) }}>
+                                    <IconButton color='secondary' onClick={() => { firebaseApi.addToFavorites(tile) }}>
                                         <FavoriteIcon />
                                     </IconButton>}
                                 actionPosition="left"

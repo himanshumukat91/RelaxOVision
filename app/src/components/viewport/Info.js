@@ -5,7 +5,6 @@ import Card from '@material-ui/core/Card';
 import CardHeader from '@material-ui/core/CardHeader';
 import CardMedia from '@material-ui/core/CardMedia';
 import CardContent from '@material-ui/core/CardContent';
-import CardActions from '@material-ui/core/CardActions';
 import Avatar from '@material-ui/core/Avatar';
 import IconButton from '@material-ui/core/IconButton';
 import Typography from '@material-ui/core/Typography';
@@ -20,8 +19,8 @@ import firebaseApi from '../../api/firebase.js';
 //style
 const styles = theme => ({
     card: {
-        width: '70vw',
-        minWidth: '1024px'
+        position: 'relative',
+        width: '100vw',
     },
     media: {
         height: 0,
@@ -30,6 +29,7 @@ const styles = theme => ({
     actions: {
         display: 'flex',
         justifyContent: 'space-between',
+        width: '100%',
     },
     avatar: {
         backgroundColor: red[500],
@@ -84,17 +84,19 @@ class Info extends React.Component {
                             className={classes.media}
                             image={this.state.photoDetails.urls.full}
                             title={this.state.photoDetails.user.username} />
-                        <CardActions className={classes.actions} disableActionSpacing>
+                        <div className={classes.actions} >
                             <div className="flex-center">
-                                <IconButton aria-label="Like" disabled={false} style={{ marginRight: '0.5em' }}>
+                                <IconButton onClick={()=>firebaseApi.likeItem(this.state.photoDetails)}
+                                    aria-label="Like" disabled={false} style={{ marginRight: '0.5em' }}>
                                     <LikeIcon />
                                 </IconButton>
                                 {this.state.photoDetails.likes}
                             </div>
-                            <IconButton onClick={() => { this.addToFav(this.state.photoDetails) }} aria-label="Add to favorites">
+                            <IconButton onClick={() => { this.addToFav(this.state.photoDetails) }} 
+                                aria-label="Add to favorites">
                                 <FavoriteIcon />
                             </IconButton>
-                        </CardActions>
+                        </div>
                         <CardContent>
                             <Typography component="p" gutterBottom align="left">
                                 {this.state.photoDetails.description || this.state.photoDetails.user.bio}
