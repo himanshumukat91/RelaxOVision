@@ -9,6 +9,7 @@ import { fade } from '@material-ui/core/styles/colorManipulator';
 import { withStyles } from '@material-ui/core/styles';
 import { NavLink } from 'react-router-dom'
 import { withRouter } from 'react-router-dom'
+import Tooltip from '@material-ui/core/Tooltip';
 
 import firebaseApi from '../api/firebase.js';
 
@@ -209,21 +210,22 @@ class Menubar extends React.Component {
                                 }} />
                         </div>
                         <div className={classes.grow} />
-                        {/* <div className={classes.sectionDesktop}> */}
-                            {this.state.loggedIn
-                                ? <React.Fragment>
-                                    <IconButton color="inherit">
-                                        <AccountCircle />
-                                    </IconButton>
-                                    <Typography className={classes.title} variant="h6" color="inherit" noWrap>
-                                        {this.state.username}
-                                    </Typography>
-                                    <IconButton color="inherit" onClick={() => { firebaseApi.logout(); }}>
-                                        <Cancel />
-                                    </IconButton>
-                                </React.Fragment>
-                                : <div id="firebaseui-auth-container"></div>}
-                        {/* </div> */}
+                        {this.state.loggedIn
+                          ?<React.Fragment>
+                              <IconButton color="inherit">
+                                  <AccountCircle />
+                              </IconButton>
+                              <Typography className={classes.title} variant="h6" color="inherit" noWrap>
+                                  {this.state.username}
+                              </Typography>
+                              <Tooltip title="Logout" aria-label="Logout" enterDelay={500} leaveDelay={500}>
+                                  <IconButton color="inherit" onClick={() => { firebaseApi.logout(); }}>
+                                      <Cancel />
+                                  </IconButton>
+                              </Tooltip>
+                          </React.Fragment>
+                          : <div id="firebaseui-auth-container"></div>
+                        }
                     </Toolbar>
                 </AppBar>
                 <Drawer anchor="left" open={this.state.showSidebar}

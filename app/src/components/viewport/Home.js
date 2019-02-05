@@ -7,6 +7,9 @@ import GridListTileBar from '@material-ui/core/GridListTileBar';
 import IconButton from '@material-ui/core/IconButton';
 import FavoriteIcon from '@material-ui/icons/StarBorder';
 import { withRouter } from 'react-router-dom'
+import Tooltip from '@material-ui/core/Tooltip';
+import Refresh from '@material-ui/icons/Refresh';
+import Fab from '@material-ui/core/Fab';
 
 import unsplashApi from '../../api/unsplash.js';
 import firebaseApi from '../../api/firebase.js';
@@ -36,7 +39,12 @@ const styles = theme => ({
     },
     activeIcon: {
         color: 'red',
-    }
+    },
+    fab: {
+        position: 'fixed',
+        bottom: 0,
+        margin: theme.spacing.unit * 2,
+    },
 });
 
 //Class
@@ -58,11 +66,12 @@ class Home extends React.Component {
                 img: photo.urls.regular,
                 title: photo.user.username,
                 author: photo.user.username,
-                featured: (photo.likes > 100 ? true : false),
+                featured: (photo.likes > 20 ? true : false),
             })
         });
         this.setState({ tileData: photoData });
     }
+
 
     // getUserFavorites = async () => {
     //     let favs = await firebaseApi.getFavorites();
@@ -100,6 +109,12 @@ class Home extends React.Component {
                         </GridListTile>
                     ))}
                 </GridList>
+                <Tooltip title="Refresh" aria-label="Refresh" enterDelay={1000} leaveDelay={500}>
+                    <Fab color="primary" onClick={() => {this.getRandomPhotos()}}
+                        className={this.props.classes.fab}>
+                        <Refresh />
+                    </Fab>
+                </Tooltip>
             </div>
         );
     }
