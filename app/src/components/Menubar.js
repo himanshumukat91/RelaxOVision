@@ -9,6 +9,7 @@ import { fade } from '@material-ui/core/styles/colorManipulator';
 import { withStyles } from '@material-ui/core/styles';
 import { NavLink } from 'react-router-dom'
 import { withRouter } from 'react-router-dom'
+
 import firebaseApi from '../api/firebase.js';
 
 import Drawer from '@material-ui/core/Drawer';
@@ -42,6 +43,7 @@ const debounce = (func, delay) => {
 const styles = theme => ({
     root: {
         width: '100%',
+        height: '100%',
     },
     title: {
         display: 'none',
@@ -159,8 +161,7 @@ class Menubar extends React.Component {
                 name: 'Favorites',
                 icon: <Favorite />,
                 link: '/favorites',
-            },
-        ]
+            }];
 
         const sideList = (
             <div className={classes.list}>
@@ -177,6 +178,9 @@ class Menubar extends React.Component {
                         </React.Fragment>
                     ))}
                 </List>
+                <div style={{width: '100%', display: 'flex', justifyContent: 'center', marginTop: '1em'}}>
+                    {window.firebaseUser?window.firebaseUser.displayName:''}
+                </div>
             </div>
         );
 
@@ -205,7 +209,7 @@ class Menubar extends React.Component {
                                 }} />
                         </div>
                         <div className={classes.grow} />
-                        <div className={classes.sectionDesktop}>
+                        {/* <div className={classes.sectionDesktop}> */}
                             {this.state.loggedIn
                                 ? <React.Fragment>
                                     <IconButton color="inherit">
@@ -219,7 +223,7 @@ class Menubar extends React.Component {
                                     </IconButton>
                                 </React.Fragment>
                                 : <div id="firebaseui-auth-container"></div>}
-                        </div>
+                        {/* </div> */}
                     </Toolbar>
                 </AppBar>
                 <Drawer anchor="left" open={this.state.showSidebar}

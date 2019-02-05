@@ -42,11 +42,13 @@ class Favorites extends React.Component {
     }
 
     getFavPhotos = async () => {
-        let photos = await firebaseApi.getFavorites();
-        if (photos)
-            this.setState({ tileData: Object.values(photos) });
-        else
-            this.setState({ tileData: [] });
+        if(window.firebaseUser){
+            let photos = await firebaseApi.getFavorites();
+            if (photos)
+                this.setState({ tileData: Object.values(photos) });
+            else
+                this.setState({ tileData: [] });
+        }
     }
 
     componentDidMount() {

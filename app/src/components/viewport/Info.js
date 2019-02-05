@@ -16,7 +16,6 @@ import LikeIcon from '@material-ui/icons/ThumbUp';
 
 import unsplashApi from '../../api/unsplash.js';
 import firebaseApi from '../../api/firebase.js';
-import { buildFetchOptions } from '../../../node_modules/unsplash-js/lib/utils';
 
 //style
 const styles = theme => ({
